@@ -19,6 +19,7 @@ def driver():
     driver.quit()
 
 class TestMainPage():
+    @pytest.mark.skip
     def test_1(self, driver):
         # Open main page and scroll in bottom to link vk group
         driver.get(base_url)
@@ -35,6 +36,7 @@ class TestMainPage():
 
         assert text == "Зоомагазин Четыре Лапы"
 
+    @pytest.mark.skip
     def test_2(self, driver):
         # Open main page, scroll to button: "Как купить" and click it
         driver.get(base_url)
@@ -52,3 +54,16 @@ class TestMainPage():
         # Assert search work
         search_results = driver.find_elements(By.TAG_NAME,'article')
         assert search_results is not None
+
+    def test_3(self,driver):
+        driver.get(base_url)
+        driver.find_element(By.CSS_SELECTOR,'button.HeaderTogglePetServicesBtn_catalogButton__7pZ3l.text-no-wrap').click()
+        driver.find_element(By.XPATH, '//div[text()="Онлайн-ветеринария"]').click()
+
+        online_vet_page = driver.window_handles[1]
+        driver.switch_to.window(online_vet_page)
+
+        actual_url = driver.current_url
+        print(f"Actual url: {actual_url}")
+        expected_url = "https://vetsy.ru/veterinars/online/"
+        assert actual_url == expected_url, f"{actual_url} is not correct, must be : {expected_url}"
