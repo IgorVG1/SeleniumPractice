@@ -41,3 +41,35 @@ def test_3(driver):
     print('\nSum of all numerics:\n' + str(sum))
 
     assert sum == 450384194300, 'Сумма должна ровняться числу 450 384 194 300'
+
+def test_4(driver):
+    url = 'https://parsinger.ru/selenium/3/3.html'
+
+    driver.get(url)
+
+    numerics = driver.find_elements(By.CSS_SELECTOR,'div.text p:nth-child(2)')
+    sum = 0
+
+    for numeric in numerics:
+        sum = sum + int(numeric.text)
+
+    print('\nSum of all numerics on second graph in each table:\n' + str(sum))
+
+    assert sum == 149494128600, 'Сумма должна ровняться числу 149 494 128 600'
+
+def test_5(driver):
+    url = 'https://parsinger.ru/selenium/4/4.html'
+
+    driver.get(url)
+
+    checkboxes = driver.find_elements(By.CLASS_NAME,'check')
+    for checkbox in checkboxes:
+        checkbox.click()
+
+    driver.find_element(By.CLASS_NAME,'btn').click()
+
+    wait(driver,5).until(EC.visibility_of_element_located((By.ID,'result')))
+
+    result_key = driver.find_element(By.ID,'result')
+    print('\nКодовое число:\n' + result_key.text)
+    assert result_key.is_displayed(), 'Должно появиться число'
