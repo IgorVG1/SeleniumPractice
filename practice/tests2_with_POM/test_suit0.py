@@ -3,6 +3,9 @@ from practice.pages.link_secret import LinkSecret
 from practice.pages.grand_sum import GrandSum
 from practice.pages.little_sum import LittleSum
 from practice.pages.many_checkboxes import ManyCheckboxes
+from practice.pages.special_checkboxes import SpecialCheckboxes
+from practice.pages.select_sum import SelectSum
+from practice.pages.select_math import SelectMath
 
 import time
 
@@ -50,3 +53,33 @@ def test_5(driver):
     many_checkboxes.click_all_checkboxes()
     many_checkboxes.click_button()
     many_checkboxes.check_and_copy_result_key()
+
+
+def test_6(driver):
+
+    special_checkboxes = SpecialCheckboxes(driver)
+
+    special_checkboxes.open()
+    special_checkboxes.click_only_special_checkboxes()
+    special_checkboxes.click_button()
+    special_checkboxes.check_key_present()
+
+
+def test_7(driver):
+
+    select_sum = SelectSum(driver)
+
+    select_sum.open()
+    select_sum.sum_all_value_options_of_select_and_input_result()
+    select_sum.click_button()
+    select_sum.check_key_present()
+
+
+def test_8(driver):
+
+    select_math = SelectMath(driver)
+
+    select_math.open()
+    select_math.take_answer_in_math_hint()
+    select_math.click_button()
+    select_math.check_answer_and_get_key()
