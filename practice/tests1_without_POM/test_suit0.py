@@ -150,3 +150,49 @@ def test_8(driver):
     if key.is_displayed():
         print('\nChecking your answer...\nExactly!\nYour key:\n' + key.text)
     assert key.is_displayed(), 'You have taken mistake(('
+
+
+def test_9(driver):
+    url = 'https://parsinger.ru/selenium/5.5/1/1.html'
+
+    driver.get(url)
+
+    inputs = driver.find_elements(By.TAG_NAME, 'input')
+    for input in inputs:
+        input.clear()
+
+    driver.find_element(By.TAG_NAME, 'button').click()
+
+    wait(driver, 10).until(EC.alert_is_present())
+
+    alert = driver.switch_to.alert
+    key_from_alert = alert.text
+    print("\nYour Key :\n" + str(key_from_alert))
+    assert key_from_alert is not None, "Alert must contain big number, it's key"
+
+
+def test_10(driver):
+    url = 'https://parsinger.ru/methods/3/index.html'
+
+    driver.get(url)
+
+    cookies = driver.get_cookies()
+    filtered_cookies = []
+    print('\nFiltered cookies:')
+    for cookie in cookies:
+        name = cookie['name']
+        value = cookie['value']
+
+        if '_' in name:
+            parts = name.split('_')
+            number_cookie = int(parts[-1])
+
+            if number_cookie % 2 == 0:
+                key_part = int(value)
+                filtered_cookies.append(key_part)
+                print(f'Name:{name}\nValue:{value}')
+
+    key_sum = sum(filtered_cookies)
+    print(f'\nYour Key:\n{key_sum}')
+
+    assert key_sum is not None, 'Must be sum values of all filtered cookies'

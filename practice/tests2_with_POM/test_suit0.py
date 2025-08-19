@@ -6,6 +6,8 @@ from practice.pages.many_checkboxes import ManyCheckboxes
 from practice.pages.special_checkboxes import SpecialCheckboxes
 from practice.pages.select_sum import SelectSum
 from practice.pages.select_math import SelectMath
+from practice.pages.clear_inputs import ClearInputs
+from practice.pages.filtered_cookies import FilteredCookies
 
 import time
 
@@ -83,3 +85,21 @@ def test_8(driver):
     select_math.take_answer_in_math_hint()
     select_math.click_button()
     select_math.check_answer_and_get_key()
+
+
+def test_9(driver):
+
+    clear_inputs = ClearInputs(driver)
+
+    clear_inputs.open()
+    clear_inputs.clear_all_inputs()
+    clear_inputs.click_button()
+    clear_inputs.check_alert_and_take_key_from_alert()
+
+
+def test_10(driver):
+
+    filtered_cookies = FilteredCookies(driver)
+
+    filtered_cookies.open()
+    filtered_cookies.to_filtere_cookies_and_check_key()
