@@ -196,3 +196,70 @@ def test_10(driver):
     print(f'\nYour Key:\n{key_sum}')
 
     assert key_sum is not None, 'Must be sum values of all filtered cookies'
+
+
+def test_11(driver):
+    url = 'https://parsinger.ru/selenium/5.5/2/1.html'
+
+    driver.get(url)
+
+    inputs = driver.find_elements(By.TAG_NAME, 'input')
+    for input in inputs:
+        if input.get_attribute('data-enabled') == 'true':
+            input.clear()
+
+    driver.find_element(By.TAG_NAME, 'button').click()
+
+    alert = driver.switch_to.alert
+    alert_key = alert.text
+    print('\nYour key:\n' + alert_key)
+    assert alert_key is not None, 'Alert must contain big number, it it key'
+
+
+def test_12(driver):
+    url = 'https://parsinger.ru/methods/5/index.html'
+
+    driver.get(url)
+
+    list_expire_cookie = []
+
+    links = driver.find_elements(By.CSS_SELECTOR, 'div.urls')
+    for link in links:
+        link.click()
+
+        cookies_link = driver.get_cookies()
+        for cookie_link in cookies_link:
+            expiry_cookie = int(cookie_link['expiry'])
+            list_expire_cookie.append(expiry_cookie)
+
+        driver.back()
+
+    print('\nList of expire all cookie each link:')
+    print(list_expire_cookie)
+
+    longest_expire_cookie = max(list_expire_cookie)
+    print('\nThe most longest expire of cookie:')
+    print(longest_expire_cookie)
+    index_extra_cookie = list_expire_cookie.index(longest_expire_cookie)
+
+    links[index_extra_cookie].click()
+    key = driver.find_element(By.ID, 'result').text
+    print(f'\nYour Key:\n{key}')
+
+
+def test_13(driver):
+    url = 'https://parsinger.ru/scroll/4/index.html'
+
+    driver.get(url)
+
+    buttons = driver.find_elements(By.TAG_NAME, 'button')
+    sum = 0
+
+    for button in buttons:
+        driver.execute_script("return arguments[0].scrollIntoView(true);", button)
+        button.click()
+        number = int(driver.find_element(By.ID, 'result').text)
+        sum += number
+
+    print(f'\nYour key:\n{sum}')
+    assert sum is not None, "Must be big number. It is your key"

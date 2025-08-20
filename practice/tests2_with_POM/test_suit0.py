@@ -8,6 +8,9 @@ from practice.pages.select_sum import SelectSum
 from practice.pages.select_math import SelectMath
 from practice.pages.clear_inputs import ClearInputs
 from practice.pages.filtered_cookies import FilteredCookies
+from practice.pages.clear_specific_inputs import ClearSpecificInputs
+from practice.pages.old_cookie import OldCookie
+from practice.pages.closed_numbers import ClosedNumbers
 
 import time
 
@@ -103,3 +106,26 @@ def test_10(driver):
 
     filtered_cookies.open()
     filtered_cookies.to_filtere_cookies_and_check_key()
+
+
+def test_11(driver):
+    clear_specific_inputs = ClearSpecificInputs(driver)
+
+    clear_specific_inputs.open()
+    clear_specific_inputs.clear_available_inputs()
+    clear_specific_inputs.click_button()
+    clear_specific_inputs.check_key_in_alert_and_get_him()
+
+
+def test_12(driver):
+    old_cookie = OldCookie(driver)
+
+    old_cookie.open()
+    old_cookie.find_link_with_the_oldest_cookie_and_get_him_key()
+
+
+def test_13(driver):
+    closed_numbers = ClosedNumbers(driver)
+
+    closed_numbers.open()
+    closed_numbers.click_all_buttons_check_and_get_key()
