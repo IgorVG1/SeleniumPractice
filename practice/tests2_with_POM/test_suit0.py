@@ -11,6 +11,9 @@ from practice.pages.filtered_cookies import FilteredCookies
 from practice.pages.clear_specific_inputs import ClearSpecificInputs
 from practice.pages.old_cookie import OldCookie
 from practice.pages.closed_numbers import ClosedNumbers
+from practice.pages.inputs_selected_checkbox import InputsSelectedCheckbox
+from practice.pages.copy_paste import CopyPaste
+from practice.pages.all_color_filters import AllColorSelects
 
 import time
 
@@ -129,3 +132,31 @@ def test_13(driver):
 
     closed_numbers.open()
     closed_numbers.click_all_buttons_check_and_get_key()
+
+
+def test_14(driver):
+
+    inputs_selected_checkbox = InputsSelectedCheckbox(driver)
+
+    inputs_selected_checkbox.open()
+    inputs_selected_checkbox.check_sum_from_all_inputs_with_selected_checkbox()
+
+
+def test_15(driver):
+
+    copy_paste = CopyPaste(driver)
+
+    copy_paste.open()
+    copy_paste.copy_paste_all_text_from_gray_inputs_in_blue_inputs()
+    copy_paste.click_button_to_check_result()
+    copy_paste.get_and_check_key()
+
+
+def test_16(driver):
+
+    all_color_selects = AllColorSelects(driver)
+
+    all_color_selects.open()
+    all_color_selects.take_all_color_filters()
+    all_color_selects.click_button_to_check_all_color_filters()
+    all_color_selects.check_result_and_get_key()

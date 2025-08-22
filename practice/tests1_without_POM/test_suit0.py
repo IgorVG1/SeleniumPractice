@@ -263,3 +263,83 @@ def test_13(driver):
 
     print(f'\nYour key:\n{sum}')
     assert sum is not None, "Must be big number. It is your key"
+
+
+def test_14(driver):
+    url = 'https://parsinger.ru/selenium/5.5/3/1.html'
+
+    driver.get(url)
+
+    checkboxes = driver.find_elements(By.TAG_NAME,'input')
+    inputs = driver.find_elements(By.TAG_NAME,'textarea')
+    sum = 0
+
+    for checkbox in checkboxes:
+        index_checkbox = checkboxes.index(checkbox)
+        if checkbox.is_selected():
+            summand = int(inputs[index_checkbox].get_attribute('value'))
+            sum += summand
+
+    print(f'\nSum of all inputs with selected checkbox:\n{sum}')
+    assert sum.is_integer(), 'Must be big number, it is your key'
+
+
+def test_15(driver):
+    url = 'https://parsinger.ru/selenium/5.5/4/1.html'
+
+    driver.get(url)
+
+    inputs_gray = driver.find_elements(By.CSS_SELECTOR,'textarea[color="gray"]')
+    inputs_blue = driver.find_elements(By.CSS_SELECTOR,'textarea[color="blue"]')
+    inputs_button = driver.find_elements(By.CSS_SELECTOR,'div.parent button')
+
+    for input_g in inputs_gray:
+
+        joint_index = inputs_gray.index(input_g)
+        joint_text = input_g.text
+
+        input_g.clear()
+        inputs_blue[joint_index].send_keys(joint_text)
+        inputs_button[joint_index].click()
+
+    driver.find_element(By.ID,'checkAll').click()
+
+    key = driver.find_element(By.ID,'congrats').text
+    print(f'\nYour key:\n{key}')
+    assert key is not None, 'Must be text with code same format as XXXX-XXXX-XXXX...'
+
+
+def test_16(driver):
+    url = 'https://parsinger.ru/selenium/5.5/5/1.html'
+
+    driver.get(url)
+
+    HEXes = driver.find_elements(By.TAG_NAME,'span')
+    selects = driver.find_elements(By.TAG_NAME,'select')
+    checkboxes = driver.find_elements(By.CSS_SELECTOR,'input[type="checkbox"]')
+    inputs = driver.find_elements(By.CSS_SELECTOR,'input[type="text"]')
+    button_check_result = driver.find_elements(By.XPATH,'//button[text()="Проверить"]')
+    button_general = driver.find_element(By.XPATH,'//button[text()="Проверить все элементы"]')
+
+    for HEX in HEXes:
+        joint_index = HEXes.index(HEX)
+        joint_HEX = HEX.text
+        joint_select = selects[joint_index]
+        color_blocks = driver.find_elements(By.CSS_SELECTOR,'button[data-hex="' + joint_HEX + '"]')
+        joint_color_block = color_blocks[joint_index]
+        joint_checkbox = checkboxes[joint_index]
+        joint_input = inputs[joint_index]
+        joint_button = button_check_result[joint_index]
+
+        Select(joint_select).select_by_value(joint_HEX)
+        joint_color_block.click()
+        joint_checkbox.click()
+        joint_input.send_keys(joint_HEX)
+        joint_button.click()
+
+    button_general.click()
+
+    key = driver.switch_to.alert.text
+    print(f'\nYour key:\n{key}')
+    assert key.isdigit(), 'Must be alert with big number, it is your key'
+
