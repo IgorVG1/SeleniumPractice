@@ -14,6 +14,8 @@ from practice.pages.closed_numbers import ClosedNumbers
 from practice.pages.inputs_selected_checkbox import InputsSelectedCheckbox
 from practice.pages.copy_paste import CopyPaste
 from practice.pages.all_color_filters import AllColorSelects
+from practice.pages.secret_cookies import SecretCookies
+from practice.pages.candidates_selection import CandidatesSelection
 
 import time
 
@@ -160,3 +162,19 @@ def test_16(driver):
     all_color_selects.take_all_color_filters()
     all_color_selects.click_button_to_check_all_color_filters()
     all_color_selects.check_result_and_get_key()
+
+
+def test_17(driver):
+
+    secret_cookies = SecretCookies(driver)
+
+    secret_cookies.open()
+    secret_cookies.sum_values_from_all_secret_cookies_and_get_key()
+
+
+def test_18(driver):
+
+    candidates_selection = CandidatesSelection(driver)
+
+    candidates_selection.open()
+    candidates_selection.select_the_youngest_and_the_most_skills_candidate_with_him_key()
