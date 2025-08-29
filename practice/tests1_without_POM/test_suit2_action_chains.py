@@ -113,3 +113,25 @@ def test_6_scroll_to_end(driver):
     key = driver.find_element(By.CSS_SELECTOR,'span[key="access_code"]').text
     print(f'\nYour password:\n{key}')
     assert key is not None, 'In screen must present password'
+
+def test_7_scroll_by_amount(driver):
+    url = 'https://parsinger.ru/selenium/7/7.4.1/index.html'
+    driver.get(url)
+
+    actions = AC(driver)
+    actions.scroll_by_amount(0,750).perform()
+
+    time.sleep(3.5)
+
+    full_text = driver.find_element(By.CSS_SELECTOR,'div.countdown').text
+    parts_text = full_text.split(' ')
+    key = parts_text[-1]
+
+    actions.scroll_by_amount(0, 1500).perform()
+    input_key = driver.find_element(By.CSS_SELECTOR,'input[type="text"]')
+    input_key.send_keys(key)
+
+    driver.find_element(By.TAG_NAME,'button').click()
+
+    password = driver.find_element(By.ID,'final-key').text
+    print(f'\n{password}')

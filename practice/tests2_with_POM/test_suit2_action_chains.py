@@ -5,6 +5,7 @@ from practice.pages_suit2.double_click import DoubleClick
 from practice.pages_suit2.combo_keys import ComboKeys
 from practice.pages_suit2.context_click import ContextClick
 from practice.pages_suit2.scroll_to_end import ScrollToEnd
+from practice.pages_suit2.scroll_by_amount import ScrollByAmount
 
 def test_0_scroll_by_execute_script(driver):
     ses = ScrollExecuteScript(driver)
@@ -53,3 +54,9 @@ def test_6_scroll_to_end(driver):
     ste.scroll_to_end_left_and_right_container()
     ste.get_and_check_key()
 
+def test_7_scroll_by_amount(driver):
+    sba = ScrollByAmount(driver)
+    sba.open()
+    sba.scroll_to_step_1_and_do_it()
+    sba.scroll_to_step_2_and_do_it()
+    sba.click_button_to_get_password()
