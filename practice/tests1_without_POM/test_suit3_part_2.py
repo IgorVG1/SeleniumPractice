@@ -3,6 +3,7 @@ import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains as AC
+from selenium.webdriver.common.action_chains import ScrollOrigin as SO
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait as wait
 
@@ -48,3 +49,53 @@ def test_2_infinity_scroll(driver):
     pswd = sum(all_summand)
     print(f'\nYour password:\n{pswd}')
     assert pswd == 86049950, '\nCorrect password:\n86049950'
+
+def test_3_infinity_scroll2(driver):
+    url = 'https://parsinger.ru/infiniti_scroll_2/'
+    driver.get(url)
+    time.sleep(1)
+
+    actions = AC(driver)
+    all_summand = []
+
+    for i in range(100):
+        tables = driver.find_elements(By.TAG_NAME, 'p')
+        actions.move_to_element(tables[i]).send_keys(Keys.ARROW_DOWN).perform()
+
+        summand = int(tables[i].text)
+        all_summand.append(summand)
+
+    summa = sum(all_summand)
+    print(f'\nSum of all numbers:\n{summa}')
+
+def test_4_many_scroll_containers(driver):
+    url = 'https://parsinger.ru/infiniti_scroll_3/'
+    driver.get(url)
+
+    actions = AC(driver)
+    scroll_containers = driver.find_elements(By.XPATH,'//div[@class="main"]/div')
+    all_sum_of_container = []
+
+    for container in scroll_containers:
+
+        target = container.find_element(By.CSS_SELECTOR,'div div')
+        all_summand = []
+
+        for i in range(8):
+            actions.click(target)\
+                .send_keys(Keys.ARROW_DOWN).send_keys(Keys.ARROW_DOWN).send_keys(Keys.ARROW_DOWN)\
+                .send_keys(Keys.ARROW_DOWN).send_keys(Keys.ARROW_DOWN).send_keys(Keys.ARROW_DOWN)\
+                .send_keys(Keys.ARROW_DOWN).send_keys(Keys.ARROW_DOWN).send_keys(Keys.ARROW_DOWN).perform()
+
+        spans = container.find_elements(By.TAG_NAME, 'span')
+
+        for span in spans:
+            summand = int(span.text)
+            all_summand.append(summand)
+
+        sum_of_container = sum(all_summand)
+        print(f'\nSum of container #{scroll_containers.index(container)}:\n{sum_of_container}')
+        all_sum_of_container.append(sum_of_container)
+
+    pswd = sum(all_sum_of_container)
+    print(f'\nYour password:\n{pswd}')
