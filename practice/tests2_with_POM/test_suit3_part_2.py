@@ -2,6 +2,8 @@ from practice.pages_suit3_part_2.lots_of_checkboxes import LotsOfCheckboxes
 from practice.pages_suit3_part_2.infinity_scroll import InfinityScroll
 from practice.pages_suit3_part_2.infinity_scroll2 import InfinityScroll2
 from practice.pages_suit3_part_2.many_scroll_containers import ManyScrollContainers
+from practice.pages_suit3_part_2.uran_collecting import UranCollecting
+from practice.pages_suit3_part_2.interactive_buttons import InteractiveButtons
 
 def test_1_lots_of_checkboxes(driver):
     loc = LotsOfCheckboxes(driver)
@@ -23,3 +25,13 @@ def test_4_many_scroll_containers(driver):
     msc = ManyScrollContainers(driver)
     msc.open()
     msc.scroll_to_tail_all_containers_and_sum_all_numbers_of_each()
+
+def test_5_uran_collecting(driver):
+    uc = UranCollecting(driver)
+    uc.open()
+    uc.collect_all_uranium_and_check_key()
+
+def test_6_interactive_buttons(driver):
+    ib = InteractiveButtons(driver)
+    ib.open()
+    ib.click_all_button_and_check_key()

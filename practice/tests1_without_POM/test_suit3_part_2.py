@@ -99,3 +99,33 @@ def test_4_many_scroll_containers(driver):
 
     pswd = sum(all_sum_of_container)
     print(f'\nYour password:\n{pswd}')
+
+def test_5_uran_collecting(driver):
+    url = 'https://parsinger.ru/selenium/5.7/1/index.html'
+    driver.get(url)
+
+    urans = driver.find_elements(By.CLASS_NAME,'button-container')
+    for uran in urans:
+        driver.execute_script("return arguments[0].scrollIntoView(true);",uran)
+        uran.click()
+
+    key = driver.switch_to.alert.text
+    print(f'\nYour key:\n{key}')
+    assert driver.switch_to.alert, 'Must be displayed alert with key'
+
+def test_6_interactive_buttons(driver):
+    url = 'https://parsinger.ru/selenium/5.7/5/index.html'
+    driver.get(url)
+
+    actions = AC(driver)
+
+    buttons = driver.find_elements(By.CLASS_NAME,'timer_button')
+    for button in buttons:
+        while not button.get_attribute('style') == "background-color: green;":
+            actions.click_and_hold(button).perform()
+
+    actions.reset_actions()
+    wait(driver,5).until(EC.alert_is_present())
+    key = driver.switch_to.alert.text
+    print(f'\nYour key:\n{key}')
+    assert driver.switch_to.alert, 'Must be displayed alert with key'
