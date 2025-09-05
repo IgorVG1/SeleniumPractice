@@ -129,3 +129,52 @@ def test_6_interactive_buttons(driver):
     key = driver.switch_to.alert.text
     print(f'\nYour key:\n{key}')
     assert driver.switch_to.alert, 'Must be displayed alert with key'
+
+def test_7_infinity_checkboxes(driver):
+    url = 'https://parsinger.ru/selenium/5.7/4/index.html'
+    driver.get(url)
+    wait(driver,5).until(EC.visibility_of_all_elements_located((By.CLASS_NAME,'child_container')))
+
+    target = driver.find_element(By.XPATH, '//div[@id="main_container"]')
+    actions = AC(driver)
+
+    for i in range(20):
+        actions.click(target)\
+            .send_keys(Keys.ARROW_DOWN).send_keys(Keys.ARROW_DOWN).send_keys(Keys.ARROW_DOWN).send_keys(Keys.ARROW_DOWN)\
+            .send_keys(Keys.ARROW_DOWN).send_keys(Keys.ARROW_DOWN).send_keys(Keys.ARROW_DOWN).send_keys(Keys.ARROW_DOWN)\
+            .send_keys(Keys.ARROW_DOWN).send_keys(Keys.ARROW_DOWN).send_keys(Keys.ARROW_DOWN).send_keys(Keys.ARROW_DOWN)\
+            .perform()
+
+    tables = driver.find_elements(By.CLASS_NAME,'child_container')
+    for table in tables:
+        checkboxes = table.find_elements(By.TAG_NAME,'input')
+        for checkbox in checkboxes:
+            checkbox_value = int(checkbox.get_attribute('value'))
+            if checkbox_value % 2 == 0:
+                checkbox.click()
+
+    driver.find_element(By.CLASS_NAME,'alert_button').click()
+
+    alert = driver.switch_to.alert
+    key = alert.text
+    print(f'\nYour key:\n{key}')
+    assert alert, 'Alert must be displayed with your key'
+
+def test_8_gods_like(driver):
+    url = 'https://parsinger.ru/selenium/7/7.5/index.html'
+    driver.get(url)
+
+    actions = AC(driver)
+    all_summand = []
+    wait(driver,5).until(EC.presence_of_all_elements_located((By.CLASS_NAME,'card')))
+
+    for i in range(100):
+        cards = driver.find_elements(By.CLASS_NAME,'card')
+        cards[i].find_element(By.CLASS_NAME,'like-btn').click()
+        actions.send_keys(Keys.ARROW_DOWN).send_keys(Keys.ARROW_DOWN).send_keys(Keys.ARROW_DOWN).perform()
+        time.sleep(0.05)
+        summand = int(cards[i].find_element(By.CLASS_NAME,'big-number').text)
+        all_summand.append(summand)
+
+    key = sum(all_summand)
+    print(f'\nYour key:\n{key}')

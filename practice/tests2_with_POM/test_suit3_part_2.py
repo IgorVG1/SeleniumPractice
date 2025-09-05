@@ -4,6 +4,8 @@ from practice.pages_suit3_part_2.infinity_scroll2 import InfinityScroll2
 from practice.pages_suit3_part_2.many_scroll_containers import ManyScrollContainers
 from practice.pages_suit3_part_2.uran_collecting import UranCollecting
 from practice.pages_suit3_part_2.interactive_buttons import InteractiveButtons
+from practice.pages_suit3_part_2.infinity_checkboxes import InfinityCheckboxes
+from practice.pages_suit3_part_2.gods_like import GodsLike
 
 def test_1_lots_of_checkboxes(driver):
     loc = LotsOfCheckboxes(driver)
@@ -35,3 +37,14 @@ def test_6_interactive_buttons(driver):
     ib = InteractiveButtons(driver)
     ib.open()
     ib.click_all_button_and_check_key()
+
+def test_7_infinity_checkboxes(driver):
+    ic = InfinityCheckboxes(driver)
+    ic.open()
+    ic.select_all_odd_checkboxes_in_each_table()
+    ic.click_button_and_check_key_from_alert()
+
+def test_8_gods_like(driver):
+    gl = GodsLike(driver)
+    gl.open()
+    gl.likes_all_cards_and_sum_their_values()
